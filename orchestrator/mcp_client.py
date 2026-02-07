@@ -6,6 +6,7 @@ a clean interface for calling tools on remote agents.
 
 import json
 import logging
+import sys
 from typing import Any
 
 from mcp import ClientSession, StdioServerParameters
@@ -35,8 +36,16 @@ class MCPAgentConnection:
             logger.warning(f"Agent '{self.card.agent_id}' is offline, skipping connection.")
             return
 
+        # Use sys.executable to ensure subprocesses run with the same
+        # Python interpreter (and installed packages) as the main process.
+        # This is critical on Streamlit Cloud where "python" may not
+        # point to the venv with dependencies installed.
+        command = self.card.mcp_server_command[0]
+        if command == "python":
+            command = sys.executable
+
         server_params = StdioServerParameters(
-            command=self.card.mcp_server_command[0],
+            command=command,
             args=self.card.mcp_server_command[1:],
         )
 
