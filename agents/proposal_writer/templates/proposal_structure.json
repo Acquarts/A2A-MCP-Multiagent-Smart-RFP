@@ -1,0 +1,52 @@
+{
+  "sections": [
+    {
+      "key": "executive_summary",
+      "title_en": "Executive Summary",
+      "title_es": "Resumen Ejecutivo",
+      "instruction": "Write a compelling 2-3 paragraph summary that highlights the client's need, the proposed solution, and the key value proposition. Mention relevant past experience if available."
+    },
+    {
+      "key": "understanding",
+      "title_en": "Project Understanding",
+      "title_es": "Comprensión del Proyecto",
+      "instruction": "Demonstrate deep understanding of the client's needs, challenges, and goals. Reference specific requirements from the RFP or project description. Show empathy for their business context."
+    },
+    {
+      "key": "solution",
+      "title_en": "Proposed Solution",
+      "title_es": "Solución Propuesta",
+      "instruction": "Describe the technical solution including architecture, key components, and technology choices. Justify each technology decision. Include a high-level architecture description."
+    },
+    {
+      "key": "methodology",
+      "title_en": "Methodology & Timeline",
+      "title_es": "Metodología y Cronograma",
+      "instruction": "Describe the development methodology (Agile/Scrum recommended) and break down the project into clear phases with durations, deliverables, and milestones."
+    },
+    {
+      "key": "team",
+      "title_en": "Proposed Team",
+      "title_es": "Equipo Propuesto",
+      "instruction": "Describe the team composition with roles (Project Manager, Tech Lead, Backend Developer, Frontend Developer, QA, etc.) and brief descriptions of responsibilities."
+    },
+    {
+      "key": "case_studies",
+      "title_en": "Relevant Experience",
+      "title_es": "Experiencia Relevante",
+      "instruction": "Present 1-3 relevant past projects as case studies. Include project name, client sector, challenge, solution, and measurable outcomes. Use data from the knowledge base if available."
+    },
+    {
+      "key": "budget",
+      "title_en": "Investment",
+      "title_es": "Inversión",
+      "instruction": "Present the budget breakdown by phases or components. If pricing info is available, use it. Otherwise, indicate that a detailed budget will be provided separately."
+    },
+    {
+      "key": "next_steps",
+      "title_en": "Next Steps",
+      "title_es": "Próximos Pasos",
+      "instruction": "Outline clear next steps: kickoff meeting, discovery phase start, key contacts. Create a sense of momentum and professionalism."
+    }
+  ]
+}

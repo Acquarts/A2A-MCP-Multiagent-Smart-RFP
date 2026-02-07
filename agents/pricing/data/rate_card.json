@@ -1,0 +1,87 @@
+{
+  "currency": "EUR",
+  "roles": [
+    {
+      "role_id": "pm",
+      "title": "Project Manager",
+      "hourly_rate": 75,
+      "typical_allocation_pct": 15,
+      "description": "Coordinates team, manages scope, client communication"
+    },
+    {
+      "role_id": "tech_lead",
+      "title": "Tech Lead",
+      "hourly_rate": 95,
+      "typical_allocation_pct": 20,
+      "description": "Architecture decisions, code reviews, technical mentoring"
+    },
+    {
+      "role_id": "backend_dev",
+      "title": "Backend Developer",
+      "hourly_rate": 80,
+      "typical_allocation_pct": 100,
+      "description": "API development, database design, server-side logic"
+    },
+    {
+      "role_id": "frontend_dev",
+      "title": "Frontend Developer",
+      "hourly_rate": 75,
+      "typical_allocation_pct": 100,
+      "description": "UI implementation, responsive design, client-side logic"
+    },
+    {
+      "role_id": "mobile_dev",
+      "title": "Mobile Developer",
+      "hourly_rate": 85,
+      "typical_allocation_pct": 100,
+      "description": "iOS/Android development, React Native, Flutter"
+    },
+    {
+      "role_id": "ml_engineer",
+      "title": "ML Engineer",
+      "hourly_rate": 100,
+      "typical_allocation_pct": 100,
+      "description": "Machine learning models, data pipelines, AI integration"
+    },
+    {
+      "role_id": "designer",
+      "title": "UX/UI Designer",
+      "hourly_rate": 70,
+      "typical_allocation_pct": 50,
+      "description": "User research, wireframes, visual design, prototypes"
+    },
+    {
+      "role_id": "qa",
+      "title": "QA Engineer",
+      "hourly_rate": 60,
+      "typical_allocation_pct": 50,
+      "description": "Test planning, manual/automated testing, bug tracking"
+    },
+    {
+      "role_id": "devops",
+      "title": "DevOps Engineer",
+      "hourly_rate": 85,
+      "typical_allocation_pct": 25,
+      "description": "CI/CD, infrastructure, cloud deployment, monitoring"
+    }
+  ],
+  "complexity_multipliers": {
+    "low": 0.8,
+    "medium": 1.0,
+    "high": 1.3,
+    "very_high": 1.6
+  },
+  "phase_distribution": {
+    "discovery": { "pct_of_total": 8, "description": "Requirements, research, planning" },
+    "design": { "pct_of_total": 12, "description": "UX/UI design, prototyping" },
+    "development": { "pct_of_total": 50, "description": "Core implementation" },
+    "testing": { "pct_of_total": 15, "description": "QA, bug fixing, UAT" },
+    "deployment": { "pct_of_total": 10, "description": "Infrastructure, launch, monitoring" },
+    "post_launch": { "pct_of_total": 5, "description": "Support, hotfixes, handover" }
+  },
+  "discount_tiers": {
+    "standard": 0,
+    "long_term": 5,
+    "strategic": 10
+  }
+}
