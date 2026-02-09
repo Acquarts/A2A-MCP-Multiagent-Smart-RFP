@@ -19,10 +19,16 @@ import httpx
 from config.settings import settings
 from orchestrator.agent_cards import (
     AGENT_REGISTRY,
-    AgentCard,
     AgentStatus,
 )
-from orchestrator.mcp_client import MCPAgentPool
+
+# Use in-process pool by default (single process, low memory).
+# Fall back to MCP subprocess pool only if USE_MCP_SUBPROCESSES env var is set.
+import os
+if os.getenv("USE_MCP_SUBPROCESSES"):
+    from orchestrator.mcp_client import MCPAgentPool
+else:
+    from orchestrator.inprocess_pool import InProcessAgentPool as MCPAgentPool
 
 logger = logging.getLogger(__name__)
 
