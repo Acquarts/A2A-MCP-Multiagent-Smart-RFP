@@ -132,7 +132,7 @@ def _add_cover_page(doc: Document, client_name: str, project_title: str, company
     doc.add_page_break()
 
 
-def _add_header_footer(doc: Document, company_name: str = "Aselvia", client_name: str = ""):
+def _add_header_footer(doc: Document, company_name: str = "AZA FUTURE", client_name: str = ""):
     """Add headers and footers to all sections."""
     for section in doc.sections:
         # Header
@@ -340,7 +340,7 @@ def export_proposal_to_docx(
     client_name: str,
     project_title: str = "Technical Proposal",
     output_path: str | None = None,
-    company_name: str = "Aselvia",
+    company_name: str = "AZA FUTURE",
 ) -> str:
     """Export a markdown proposal to a professional DOCX file.
 
