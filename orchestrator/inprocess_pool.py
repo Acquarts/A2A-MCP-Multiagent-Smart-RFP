@@ -65,9 +65,10 @@ from agents.pricing.models import (
 
 
 # ── Tool Registry ────────────────────────────────────────────────────
-# Maps (agent_id, tool_name) -> (async_function, PydanticInputModel)
+# Maps (agent_id, tool_name) -> (async_function, PydanticInputModel, description)
+# Descriptions must match the MCP server docstrings so Claude gets identical context.
 
-_TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
+_TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any, str]] = {
     # Client Research
     ("client_research", "search_company_info"): (
         lambda p: search_company_info(
@@ -76,6 +77,9 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         SearchCompanyInput,
+        "Research a company by searching the web and analyzing results with AI. "
+        "Searches for company details including sector, size, funding, technologies, "
+        "key people, and recent news. Returns a structured company profile.",
     ),
     ("client_research", "analyze_rfp_document"): (
         lambda p: analyze_rfp_document(
@@ -83,6 +87,10 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         AnalyzeRFPInput,
+        "Analyze an RFP document to extract key requirements and information. "
+        "Uses AI to parse and structure the RFP content, identifying business "
+        "requirements, technical specs, budget indicators, timeline, evaluation "
+        "criteria, and potential risks.",
     ),
     ("client_research", "search_linkedin_company"): (
         lambda p: search_linkedin_company(
@@ -91,6 +99,9 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         SearchLinkedInInput,
+        "Search for a company's LinkedIn presence and key decision makers. "
+        "Uses web search to find LinkedIn company pages and profiles of "
+        "executives (CTO, CEO, VP Engineering, Directors).",
     ),
     # Knowledge Base
     ("knowledge_base", "search_past_projects"): (
@@ -101,6 +112,10 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         SearchProjectsInput,
+        "Search internal project history by keywords, sector, or requirements. "
+        "Uses keyword matching plus AI-powered semantic ranking to find the "
+        "most relevant past projects. Useful for finding similar work to "
+        "reference in proposals.",
     ),
     ("knowledge_base", "get_project_details"): (
         lambda p: get_project_details(
@@ -108,6 +123,9 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         GetProjectDetailsInput,
+        "Get full details of a specific project by its ID. "
+        "Returns complete information including team size, duration, budget, "
+        "tech stack, features, outcomes, and challenges.",
     ),
     ("knowledge_base", "search_tech_stack"): (
         lambda p: search_tech_stack(
@@ -116,6 +134,9 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         SearchTechStackInput,
+        "Find projects that use specific technologies. "
+        "Search by one or more technologies to find relevant experience. "
+        "Can match projects using ANY or ALL of the specified technologies.",
     ),
     ("knowledge_base", "get_case_studies"): (
         lambda p: get_case_studies(
@@ -124,6 +145,9 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         GetCaseStudiesInput,
+        "Retrieve case studies relevant to a target client's sector and project type. "
+        "Finds completed projects with successful outcomes that serve as "
+        "social proof in proposals.",
     ),
     # Proposal Writer
     ("proposal_writer", "generate_proposal"): (
@@ -137,6 +161,11 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             output_format=p.output_format,
         ),
         GenerateProposalInput,
+        "Generate a complete technical/commercial proposal document. "
+        "Combines client research, internal knowledge base, and pricing data "
+        "into a structured, professional proposal with all standard sections: "
+        "Executive Summary, Project Understanding, Solution, Methodology, "
+        "Team, Case Studies, Investment, and Next Steps.",
     ),
     ("proposal_writer", "generate_timeline"): (
         lambda p: generate_timeline(
@@ -146,6 +175,9 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             output_format=p.output_format,
         ),
         GenerateTimelineInput,
+        "Generate a detailed project timeline with phases and milestones. "
+        "Creates a phase-by-phase breakdown including Discovery, Design, "
+        "Development, Testing, Deployment, and Post-launch support.",
     ),
     ("proposal_writer", "generate_executive_summary"): (
         lambda p: generate_executive_summary(
@@ -155,6 +187,9 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             output_format=p.output_format,
         ),
         GenerateExecutiveSummaryInput,
+        "Generate a concise executive summary from a full proposal. "
+        "Distills the proposal into a compelling summary highlighting "
+        "the client's need, proposed solution, experience, and ROI.",
     ),
     ("proposal_writer", "export_proposal_docx"): (
         lambda p: export_proposal_docx(
@@ -164,6 +199,10 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             company_name=p.company_name,
         ),
         ExportProposalDocxInput,
+        "Export a markdown proposal to a professional Word document (.docx). "
+        "Creates a formatted DOCX file with cover page, styled sections, "
+        "tables, headers/footers with page numbers, and company branding. "
+        "The proposal must be in markdown format (output from generate_proposal).",
     ),
     # Pricing
     ("pricing", "estimate_project"): (
@@ -175,6 +214,10 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         EstimateProjectInput,
+        "Generate a full project cost estimation based on scope analysis. "
+        "Uses AI to analyze the project description, determine the required "
+        "team composition, estimate hours per role, apply complexity multipliers, "
+        "and calculate total cost with phase breakdown.",
     ),
     ("pricing", "estimate_from_roles"): (
         lambda p: estimate_from_roles(
@@ -183,12 +226,18 @@ _TOOL_REGISTRY: dict[tuple[str, str], tuple[Any, Any]] = {
             response_format=p.response_format,
         ),
         EstimateFromRolesInput,
+        "Calculate project cost from a manually defined team composition. "
+        "Useful when you already know the team and hours needed. "
+        "Supports both predefined roles (from rate card) and custom roles.",
     ),
     ("pricing", "get_rate_card"): (
         lambda p: get_rate_card(
             response_format=p.response_format,
         ),
         GetRateCardInput,
+        "Retrieve the current rate card with all roles, rates, and pricing rules. "
+        "Returns hourly rates per role, complexity multipliers, discount tiers, "
+        "and phase distribution percentages.",
     ),
 }
 
@@ -229,18 +278,15 @@ class InProcessAgentPool:
     async def get_all_tools(self) -> dict[str, list[dict[str, Any]]]:
         """Return tool definitions grouped by agent, with JSON schemas."""
         all_tools: dict[str, list[dict]] = {}
-        for (agent_id, tool_name), (_, model_class) in _TOOL_REGISTRY.items():
+        for (agent_id, tool_name), (_, model_class, description) in _TOOL_REGISTRY.items():
             if agent_id not in self._connected:
                 continue
             if agent_id not in all_tools:
                 all_tools[agent_id] = []
 
-            # Get description from the tool function's docstring or model
-            desc = model_class.__doc__ or tool_name
-
             all_tools[agent_id].append({
                 "name": tool_name,
-                "description": desc,
+                "description": description,
                 "input_schema": _build_tool_schema(model_class),
             })
         return all_tools
@@ -253,9 +299,12 @@ class InProcessAgentPool:
         if key not in _TOOL_REGISTRY:
             return json.dumps({"error": f"Tool '{tool_name}' not found on agent '{agent_id}'"})
 
-        fn, model_class = _TOOL_REGISTRY[key]
+        fn, model_class, _ = _TOOL_REGISTRY[key]
         try:
-            params = model_class(**arguments)
+            # Unwrap "params" wrapper if present — MCP servers expect this
+            # format but Pydantic models take flat arguments.
+            args = arguments.get("params", arguments) if "params" in arguments else arguments
+            params = model_class(**args)
             result = await fn(params)
             return result
         except Exception as e:
